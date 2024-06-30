@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Design</title>
+
+    <style>
+        /* Imported Custom Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
+
+        /* Resetting default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            background: #f0f2f5;
+        }
+
+        /* Global styles */
+        body>div {
+            background: #fff;
+            max-width: 300px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            text-align: left;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        p {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: red;
+            margin-top: -5px;
+            width: 100%;
+            text-align: left;
+        }
+
+
+        div>div {
+            width: 100%;
+        }
+
+        input,
+        select {
+            padding: 10px 15px;
+            height: 40px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333" width="18px" height="18px"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 18px 18px;
+        }
+
+        button {
+            width: 100%;
+            height: 45px;
+            margin: 10px 0 0 0;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #image {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        #msg-box,
+        #dropdown,
+        #image {
+            display: none;
+        }
+
+        #msg-box.active,
+        #dropdown.active,
+        #image.active {
+            display: block;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+        <h2>Captcha</h2>
+        <label for="input-text" id="question-box"></label>
+        <input type="text" id="input-text">
+
+        <select id="dropdown">
+            <option value="" selected disabled>Select your type</option>
+            <option value="White">White</option>
+            <option value="Maksad">Maksad</option>
+            <option value="Paedophile">Paedophile</option>
+            <option value="Zoophile">Zoophile</option>
+            <option value="Necrophile">Necrophile</option>
+        </select>
+
+        <p id="msg-box">Hello</p>
+        <video id="image" src="./Bsdk Jahil.mp4" alt="" autoplay></video>
+        <button onclick="handleSubmit()">Submit</button>
+    </div>
+
+    <script>
+
+        const quest = document.getElementById('question-box');
+        const inputText = document.getElementById('input-text');
+        const msg = document.getElementById('msg-box');
+        const typeBox = document.getElementById('dropdown');
+        const image = document.getElementById('image');
+        let numArr = [2, 3, 4, 5, 6, 7, 8, 9];
+
+        let num1 = numArr[Math.floor(Math.random() * numArr.length)];
+        let num2 = numArr[Math.floor(Math.random() * numArr.length)];
+        inputText.value = ''
+        typeBox.value = ''
+
+        let attempt = 0;
+
+        quest.innerHTML = `What is ${num1} + ${num2}?`;
+
+        function handleSubmit() {
+            const answer = inputText.value;
+            const correctAnswer = num1 + num2;
+
+
+            if (!answer) {
+                msg.classList.add('active')
+                msg.innerHTML = "Abe kuch answer tho de.";
+                return
+            }
+
+            if (attempt == 2 && typeBox.value == '') {
+                msg.classList.add('active')
+                msg.innerHTML = "Abe kuch select tho kar taki agge kuch bolu.";
+                return
+            }
+
+            msg.classList.remove('active');
+            typeBox.classList.remove('active');
+            image.classList.remove('active');
+            attempt++;
+
+            if (parseInt(answer) === correctAnswer) {
+                alert("Hogaya submit nikal ja time waste mat kar mera");
+            } else {
+                if (attempt == 1) {
+                    msg.classList.add('active')
+                    msg.innerHTML = "Abe etna tho bache ko bhi aata hai.";
+                } else if (attempt == 2) {
+                    typeBox.classList.add('active')
+
+                } else if (attempt == 3) {
+                    image.classList.add('active')
+                }
+
+                if (attempt >= 4) {
+                    window.open('https://www.youtube.com/watch?v=mjlsSYLLOSE&pp=ygUaYmFzaWMgbWF0aGVtYXRpY3MgZm9yIGtpZHM%3D', 'self');
+                }
+
+
+                inputText.value = ''
+
+            }
+        }
+
+        typeBox.addEventListener('change', () => {
+            const val = typeBox.value;
+            let message = '';
+
+            if (val === 'White') {
+                message = `if you have ${num1} niggas and I gave you ${num2} niggas how many niggas do you have now?`;
+            }
+
+            if (val === 'Maksad') {
+                message = `if you are invited for a party in ${num1} different towers and I invite you for a party in ${num2} different towers how many invites do you have now?`;
+            }
+
+            if (val === 'Paedophile') {
+                message = `if you have ${num1} childerns in the basement and I gave you ${num2} childerns how many childerns in the basement do you have now?`;
+            }
+
+            if (val === 'Zoophile') {
+                message = `if you have ${num1} dogs and I gave you ${num2} dogs how many dogs do you have now?`;
+            }
+
+            if (val === 'Necrophile') {
+                message = `if you have ${num1} corpses and I gave you ${num2} corpses how many corpses do you have now?`;
+            }
+
+            msg.classList.add('active');
+            msg.innerHTML = message;
+        });
+
+    </script>
+
+</body>
+
+</html>
